@@ -11,7 +11,7 @@
 // #include <raspicam/raspicam_cv.h>
 
 const int buf_size = CAM_HEIGHT*CAM_WIDTH;
-static const double ros_freq = 11;
+// static const double ros_freq = 11;
 
 int main(int argc, char *argv[]){
     // Open camera stream
@@ -34,15 +34,16 @@ int main(int argc, char *argv[]){
     // Define  variables for opencv
     cv::Mat frame_rgb;
     // cv::Size frame_size(CAM_WIDTH, CAM_HEIGHT);
-    cv::Mat frame_gray(cv::Size(CAM_WIDTH, CAM_HEIGHT), CV_8UC1);
+    // cv::Mat frame_gray(cv::Size(CAM_WIDTH, CAM_HEIGHT), CV_8UC1);
     // cv::Size frame_size(CAM_WIDTH, CAM_HEIGHT);
-    cv::Mat frame_msg(cv::Size(MSG_WIDTH, MSG_HEIGHT), CV_8UC1);
+    // cv::Mat frame_msg(cv::Size(MSG_WIDTH, MSG_HEIGHT), CV_8UC1);
+    // cv::Mat frame_msg(cv::Size(MSG_WIDTH, MSG_HEIGHT), CV_8UC3);
     
     // Need to rotate image
-    cv::Point2f image_center(frame_msg.cols/2.0, frame_msg.rows/2.0);
-    cv::Mat rotation = cv::getRotationMatrix2D(image_center, 180.0, 1.0);
+    // cv::Point2f image_center(frame_msg.cols/2.0, frame_msg.rows/2.0);
+    // cv::Mat rotation = cv::getRotationMatrix2D(image_center, 180.0, 1.0);
 
-    // Initializw ROS
+    // Initialize ROS
     ros::init(argc, argv, "camera_node");
     ros::NodeHandle nh;
 
@@ -50,25 +51,27 @@ int main(int argc, char *argv[]){
     sensor_msgs::Image msg;
     msg.height = MSG_HEIGHT;
     msg.width = MSG_WIDTH;
-    msg.encoding = "mono8";
+    // msg.encoding = "mono8";
+    msg.encoding = "rgb8";
     msg.is_bigendian = 0;
     msg.step = MSG_WIDTH;
 
     cv_bridge::CvImage cv_image;
     cv_image.encoding = msg.encoding;
 
-    ros::Rate publish_rate(ros_freq);
+    // ros::Rate publish_rate(ros_freq);
     while (nh.ok()){
         // Read image
         camera >> frame_rgb;
         // Convert to gray scale
-        cv::cvtColor(frame_rgb, frame_gray, cv::COLOR_RGB2GRAY);
+        // cv::cvtColor(frame_rgb, frame_gray, cv::COLOR_RGB2GRAY);
         // Scale image to MSG_WIDTHxMSG_HEIGHT
-        cv::resize(frame_gray, frame_msg, frame_msg.size(), 0, 0);
+        // cv::resize(frame_gray, frame_msg, frame_msg.size(), 0, 0);
         // Rotate image
-        cv::warpAffine(frame_msg, frame_msg, rotation, frame_msg.size());
+        // cv::warpAffine(frame_msg, frame_msg, rotation, frame_msg.size());
         // Make message
-        cv_image.image = frame_msg;
+        // cv_image.image = frame_msg;
+        cv_image.image = frame_rgb;
         cv_image.toImageMsg(msg);
         msg.header.frame_id = "cam0";
         msg.header.stamp = ros::Time::now();
