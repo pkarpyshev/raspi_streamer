@@ -12,7 +12,7 @@
 const int buf_size = CAM_HEIGHT*CAM_WIDTH;
 static const double ros_freq = 11;
 
-int main(int argc, char *argv[]){
+int main(int argc, charz *argv[]){
     // Open camera stream
     cv::VideoCapture camera(cv::CAP_V4L2);
     camera.set(cv::CAP_PROP_FRAME_WIDTH, CAM_WIDTH);
