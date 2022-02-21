@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>socket_streamer</name>
+  <name>rpi_cam_publisher</name>
   <version>0.1.0</version>
   <description>The beginner_tutorials package</description>
 
