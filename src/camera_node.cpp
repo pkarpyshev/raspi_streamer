@@ -8,6 +8,7 @@
 #include <ros/ros.h>
 // #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
+// #include <raspicam/raspicam_cv.h>
 
 const int buf_size = CAM_HEIGHT*CAM_WIDTH;
 static const double ros_freq = 11;
@@ -15,6 +16,7 @@ static const double ros_freq = 11;
 int main(int argc, char *argv[]){
     // Open camera stream
     cv::VideoCapture camera(cv::CAP_V4L2);
+    // raspicam::RaspiCam_Cv Camera;
     camera.set(cv::CAP_PROP_FRAME_WIDTH, CAM_WIDTH);
     camera.set(cv::CAP_PROP_FRAME_HEIGHT, CAM_HEIGHT);
     camera.set(cv::CAP_PROP_FPS, CAM_FPS);
