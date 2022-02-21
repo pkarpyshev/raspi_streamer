@@ -7,7 +7,6 @@ find_package (catkin REQUIRED COMPONENTS
     cv_bridge
     image_transport
     sensor_msgs
-    # raspicam
 )
 
 find_package(OpenCV)
