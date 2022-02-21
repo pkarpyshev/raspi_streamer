@@ -34,8 +34,8 @@ int main(int argc, char *argv[]){
     // Define  variables for opencv
     cv::Mat frame_rgb;
     // cv::Size frame_size(CAM_WIDTH, CAM_HEIGHT);
-    // cv::Mat frame_gray(cv::Size(CAM_WIDTH, CAM_HEIGHT), CV_8UC1);
-    // cv::Size frame_size(CAM_WIDTH, CAM_HEIGHT);
+    cv::Mat frame_gray(cv::Size(CAM_WIDTH, CAM_HEIGHT), CV_8UC1);
+    cv::Size frame_size(CAM_WIDTH, CAM_HEIGHT);
     // cv::Mat frame_msg(cv::Size(MSG_WIDTH, MSG_HEIGHT), CV_8UC1);
     // cv::Mat frame_msg(cv::Size(MSG_WIDTH, MSG_HEIGHT), CV_8UC3);
     
@@ -51,8 +51,8 @@ int main(int argc, char *argv[]){
     sensor_msgs::Image msg;
     msg.height = MSG_HEIGHT;
     msg.width = MSG_WIDTH;
-    // msg.encoding = "mono8";
-    msg.encoding = "rgb8";
+    msg.encoding = "mono8";
+    // msg.encoding = "rgb8";
     msg.is_bigendian = 0;
     msg.step = MSG_WIDTH;
 
@@ -64,14 +64,15 @@ int main(int argc, char *argv[]){
         // Read image
         camera >> frame_rgb;
         // Convert to gray scale
-        // cv::cvtColor(frame_rgb, frame_gray, cv::COLOR_RGB2GRAY);
+        cv::cvtColor(frame_rgb, frame_gray, cv::COLOR_RGB2GRAY);
         // Scale image to MSG_WIDTHxMSG_HEIGHT
         // cv::resize(frame_gray, frame_msg, frame_msg.size(), 0, 0);
         // Rotate image
         // cv::warpAffine(frame_msg, frame_msg, rotation, frame_msg.size());
         // Make message
         // cv_image.image = frame_msg;
-        cv_image.image = frame_rgb;
+        // cv_image.image = frame_rgb;
+        cv_image.image = frame_gray;
         cv_image.toImageMsg(msg);
         msg.header.frame_id = "cam0";
         msg.header.stamp = ros::Time::now();
